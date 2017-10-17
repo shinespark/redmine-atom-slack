@@ -2,7 +2,8 @@
 # coding: utf-8
 from bs4 import BeautifulSoup
 import os
-import urllib
+import urllib.parse
+import urllib.request
 import yaml
 
 dirpath = os.path.abspath(os.path.dirname(__file__))
@@ -39,6 +40,7 @@ def main():
               ],
               'channel': conf['channel'].encode('utf-8'),
             })
+            params = params.encode('ascii')
             slack_url = conf['webhook_url']
             req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
             urllib.urlopen(req)
