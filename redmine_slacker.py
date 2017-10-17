@@ -37,7 +37,7 @@ def main():
                       'footer': 'Redmine_Slacker'
                   }
               ],
-              'channel': 'てすと',
+              'channel': conf['channel'].encode('utf-8'),
             })
             slack_url = conf['webhook_url']
             req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
