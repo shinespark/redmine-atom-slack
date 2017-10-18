@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from bs4 import BeautifulSoup
+import json
 import os
 import urllib.parse
 import urllib.request
@@ -27,23 +28,22 @@ def main():
     entries = soup.find('feed').find_all('entry')
     for entry in entries:
         if entry.find('updated').string > last_atom_updated_time:
-            params = urllib.parse.urlencode({
-              'attachements': [
+            params = {
+              'attachments': [
                   {
                       'color': '#d11a1f',
-                      'author_name': entry.find('author').find('name').string.encode('utf-8'),
-                      'title': entry.find('title').string.encode('utf-8'),
+                      'author_name': entry.find('author').find('name').string,
+                      'title': entry.find('title').string,
                       'title_link': entry.find('id').string,
-                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text()[:40].encode('utf-8'),
-                      'footer': 'Redmine_Slacker'
+                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text()[:40],
+                      'footer': 'Redmine-Slacker'
                   }
               ],
-              'channel': conf['channel'].encode('utf-8'),
-            })
-            params = 'payload=' + params
-            params = params.encode('ascii')
+              'channel': conf['channel'],
+            }
+            json_params = json.dumps(params).encode('utf-8')
             slack_url = conf['webhook_url']
-            req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
+            req = urllib.request.Request(slack_url, json_params, {'Content-type': 'application/json'})
             urllib.request.urlopen(req)
 
     # update latest_atom_update_time
