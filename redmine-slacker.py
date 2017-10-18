@@ -43,7 +43,7 @@ def main():
             params = params.encode('ascii')
             slack_url = conf['webhook_url']
             req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
-            urllib.urlopen(req)
+            urllib.request.urlopen(req)
 
     # update latest_atom_update_time
     f = open(dirpath + '/latest.txt', 'w')
