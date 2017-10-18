@@ -44,11 +44,6 @@ def main():
             slack_url = conf['webhook_url']
             req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
             urllib.urlopen(req)
-            print('-----------')
-            print(entry)
-            print(entry.find('title').string)
-            print(entry.find('id').string)
-            print(BeautifulSoup(entry.find('content').string, 'html').get_text()[:40])
 
     # update latest_atom_update_time
     f = open(dirpath + '/latest.txt', 'w')
