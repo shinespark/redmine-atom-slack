@@ -34,12 +34,13 @@ def main():
                       'author_name': entry.find('author').find('name').string.encode('utf-8'),
                       'title': entry.find('title').string.encode('utf-8'),
                       'title_link': entry.find('id').string,
-                      'text': BeautifulSoup(entry.find('content').string, 'html').get_text()[:40].encode('utf-8'),
+                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text()[:40].encode('utf-8'),
                       'footer': 'Redmine_Slacker'
                   }
               ],
               'channel': conf['channel'].encode('utf-8'),
             })
+            params = 'payload=' + params
             params = params.encode('ascii')
             slack_url = conf['webhook_url']
             req = urllib.request.Request(slack_url, params, {'Content-type': 'application/x-www-form-urlencoded'})
