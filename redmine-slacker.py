@@ -35,7 +35,7 @@ def main():
                       'author_name': entry.find('author').find('name').string,
                       'title': entry.find('title').string,
                       'title_link': entry.find('id').string,
-                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text()[:80],
+                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text(),
                       'footer': 'Redmine-Slacker'
                   }
               ],
