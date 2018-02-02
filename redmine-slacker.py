@@ -27,24 +27,27 @@ def main():
 
     entries = soup.find('feed').find_all('entry')
     for entry in entries:
+        # skip old entry
         if entry.find('updated').string > last_atom_updated_time:
-            params = {
-              'attachments': [
-                  {
-                      'color': '#d11a1f',
-                      'author_name': entry.find('author').find('name').string,
-                      'title': entry.find('title').string,
-                      'title_link': entry.find('id').string,
-                      'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text(),
-                      'footer': 'Redmine-Slacker'
-                  }
-              ],
-              'channel': conf['channel'],
-            }
-            json_params = json.dumps(params).encode('utf-8')
-            slack_url = conf['webhook_url']
-            req = urllib.request.Request(slack_url, json_params, {'Content-type': 'application/json'})
-            urllib.request.urlopen(req)
+            continue
+
+        params = {
+          'attachments': [
+              {
+                  'color': '#d11a1f',
+                  'author_name': entry.find('author').find('name').string,
+                  'title': entry.find('title').string,
+                  'title_link': entry.find('id').string,
+                  'text': BeautifulSoup(entry.find('content').string, 'lxml').get_text(),
+                  'footer': 'Redmine-Slacker'
+              }
+          ],
+          'channel': conf['channel'],
+        }
+        json_params = json.dumps(params).encode('utf-8')
+        slack_url = conf['webhook_url']
+        req = urllib.request.Request(slack_url, json_params, {'Content-type': 'application/json'})
+        urllib.request.urlopen(req)
 
     # update latest_atom_update_time
     f = open(dirpath + '/latest.txt', 'w')
