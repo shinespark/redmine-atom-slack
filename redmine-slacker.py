@@ -31,6 +31,11 @@ def main():
         if entry.find('updated').string > last_atom_updated_time:
             continue
 
+        if 'インシデント管理' not in entry.find('title').string:
+            continue
+        if '#change-' in entry.find('link')['href']:
+            continue
+
         params = {
           'attachments': [
               {
