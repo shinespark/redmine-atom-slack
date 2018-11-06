@@ -1,3 +1,4 @@
 atom_url: 'https://'
 webhook_url: 'https://hooks.slack.com/services/xxx/xxx/xxx'
 channel: 'general'
+last_updated_at: 'last_updated_at.txt'
